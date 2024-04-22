@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { getTasks } from './plantkeeperApi';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={(e) => getTasks("joe")}>TEST</button>
       </header>
     </div>
   );
