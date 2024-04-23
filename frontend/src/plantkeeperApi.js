@@ -8,7 +8,11 @@ const apiEndpoint = "http://localhost:8000/api/users";
 
 // delete plant
 
-// get tasks lists
+/**
+ * Get task list from specified user from database
+ * @param {String} uname username of user
+ * @returns array of uname's current tasks or null on error
+ */
 async function getTasks(uname) {
     const response = await fetch(`${apiEndpoint}/${uname}`);
     if (response.ok) {
@@ -21,8 +25,13 @@ async function getTasks(uname) {
        return null;
     }
  }
-// add new task
 
+/**
+ * Add a task to specified user's tasklist in database.
+ * @param {String} uname username of user
+ * @param {TaskObj} taskToAdd task to add
+ * @returns updated array of uname's tasks or null on error
+ */
 async function addTasks(uname, taskToAdd) {
     const response = await fetch(`${apiEndpoint}/${uname}`);
     var taskList;
@@ -60,7 +69,12 @@ async function addTasks(uname, taskToAdd) {
     }
 }
 
-// delete task
+/**
+ * Delete a task from a specified user's tasklist in database.
+ * @param {String} uname username of user
+ * @param {Int} taskID id of task to delete (-1 to delete all tasks)
+ * @returns updated array of uname's tasks or null on error
+ */
 async function deleteTask(uname, taskID) {
 
     // get user object
