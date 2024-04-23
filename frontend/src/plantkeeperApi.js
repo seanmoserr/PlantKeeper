@@ -23,9 +23,44 @@ async function getTasks(uname) {
  }
 // add new task
 
+async function addTasks(uname, taskToAdd) {
+    const response = await fetch(`${apiEndpoint}/${uname}`);
+
+    if (response.ok) {
+        var taskList = await response.json();
+        taskList.tasks.push(taskToAdd);
+        taskList = taskList.tasks;
+        console.log(taskList.tasks);
+    } else {
+        console.log(response);
+        return null;
+    }
+
+    const update = await fetch(`${apiEndpoint}/${uname}`, {
+        method: "PUT",
+        headers: {
+           "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+            {
+                tasks:taskList
+            }
+        ),
+     })
+
+     if (update.ok) {
+        return taskList;
+     }
+     else {
+        console.log(update);
+        return null;
+    }
+}
+
 // delete task
 
 
 export {
-    getTasks
+    getTasks,
+    addTasks
 };
