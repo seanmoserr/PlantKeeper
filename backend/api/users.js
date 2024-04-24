@@ -27,11 +27,11 @@ router.post("/", function(req, res) {
 
 // update user
 router.put("/:uname", function(req, res){
-    User.updateOne({uname: {$eq : req.params.uname}})
-    .then(res.sendStatus(204))
-    .catch(function (err) {
-        console.log(err);
-      });
+  User.updateOne({uname: {$eq : req.params.uname}}, req.body, {upsert: true})
+  .then(res.sendStatus(204))
+  .catch(function (err) {
+      console.log(err);
+    });
 });
 
 module.exports = router;
