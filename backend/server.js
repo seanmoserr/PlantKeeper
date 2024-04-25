@@ -1,9 +1,21 @@
 const morgan = require("morgan");
 const express = require("express");
 const User = require("./models/user");
-const cors = require("cors");
+const cors=require("cors");
+
+//corsOptions for help with post methods
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            
+   optionSuccessStatus:200,
+}
+
+
  
 const app = express();
+
+//use settings in our app
+app.use(cors(corsOptions));
 
 // Middleware that parses HTTP requests with JSON body
 app.use(express.json());
