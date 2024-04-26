@@ -36,8 +36,10 @@ async function checkUser(uname, pass){
     if(response.ok) {
         var user = await response.json();
         if(user.pass === pass){
+            console.log(true);
             return [true, "success"];
         } else {
+            console.log(false);
             return [false, "password incorrect"];
         }
     } else {
@@ -70,7 +72,7 @@ async function getPlants(uname) {
 /**
  * Add a task to specified user's tasklist in database.
  * @param {String} uname username of user
- * @param {TaskObj} plantToAdd plant to add
+ * @param {PlantObj} plantToAdd plant to add
  * @returns updated array of uname's plants or null on error
  */
 async function addPlants(uname, plantsToAdd) {
@@ -196,6 +198,15 @@ async function addTasks(uname, taskToAdd) {
 
     if (response.ok) {
         taskList = await response.json();
+        taskList.tasks.sort((a,b) =>{
+            return a.id - b.id;
+        });
+        // get id of last task and update accordingly
+        if(taskList.tasks.length === 0){
+            taskToAdd.id = 0;
+        } else {
+            taskToAdd.id = ((taskList.tasks[taskList.tasks.length - 1]).id) + 1;
+        }
         taskList.tasks.push(taskToAdd);
 
         taskList = taskList.tasks;
