@@ -12,7 +12,6 @@ const apiEndpoint = "http://localhost:8000/api/users";
  */
 async function registerUser(uname, pass) {
     var userDoesntExist = await checkUser(uname, pass);
-    console.log(userDoesntExist);
     if(userDoesntExist[1] === "User doesn't exist."){
         console.log("Now registering " + uname);
         const newUser = {
