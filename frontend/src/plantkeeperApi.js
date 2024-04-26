@@ -3,21 +3,35 @@ const apiEndpoint = "http://localhost:8000/api/users";
 // register user
 // creates correct route for app to POST to apiEndpoint/uname but creates 400 bad request
 
+// get check valid user
+/**
+ * Registers User
+ * @param {String} uname username of user
+ * @param {String} pass password of user
+ * @returns status response
+ */
 async function registerUser(uname, pass) {
+
+    const newUser = {
+        uname: uname,
+        pass: pass,
+        plants: [],
+        tasks: []
+    }
+
     const options = { 
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
-    body: JSON.stringify(uname)
+        body: JSON.stringify(newUser)
   }    
   
-  fetch(`${apiEndpoint}/${uname}`, options)
-    .then(response => {
-       console.log(uname)        
+  fetch(`${apiEndpoint}`, options)
+    .then(response => {     
        if (response.ok) {
-           return response.json();
+           return response.status;
          } else {
             throw new Error('Something went wrong ...');
          }
@@ -36,8 +50,10 @@ async function checkUser(uname, pass){
     if(response.ok) {
         var user = await response.json();
         if(user.pass === pass){
+            console.log(true);
             return [true, "success"];
         } else {
+            console.log(false);
             return [false, "password incorrect"];
         }
     } else {
@@ -70,7 +86,7 @@ async function getPlants(uname) {
 /**
  * Add a task to specified user's tasklist in database.
  * @param {String} uname username of user
- * @param {TaskObj} plantsToAdd plant to add
+ * @param {PlantObj} plantToAdd plant to add
  * @returns updated array of uname's plants or null on error
  */
 async function addPlants(uname, plantsToAdd) {
@@ -206,6 +222,15 @@ async function addTasks(uname, taskToAdd) {
 
     if (response.ok) {
         taskList = await response.json();
+        taskList.tasks.sort((a,b) =>{
+            return a.id - b.id;
+        });
+        // get id of last task and update accordingly
+        if(taskList.tasks.length === 0){
+            taskToAdd.id = 0;
+        } else {
+            taskToAdd.id = ((taskList.tasks[taskList.tasks.length - 1]).id) + 1;
+        }
         taskList.tasks.push(taskToAdd);
 
         taskList = taskList.tasks;
