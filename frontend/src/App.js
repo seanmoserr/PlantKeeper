@@ -2,6 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import { addPlants, deletePlant, getPlants, getTasks, registerUser } from './plantkeeperApi';
 
+const exPlant = {
+  name: "Rosa the Rose",
+  species: "Rose"
+}
+
 
 function App() {
   return (
@@ -22,8 +27,8 @@ function App() {
         <button onClick={(e) => getTasks("joe")}>TEST</button>
         <button onClick={(e) => registerUser("newUser")}>Register user, 'new user'</button>
         <button onClick={(e) => getPlants("joe")}>Get Joe's Plants</button>
-        <button onClick={(e) => addPlants("joe", "Salvia Divinorum")}>Add Salvia Divinorum to Joe's Plants</button>
-        <button onClick={(e) => deletePlant("joe", "Salvia Divinorum")}>Delete 'Salvia Divinorum' from Joe's Plants</button>
+        <button onClick={(e) => addPlants("joe", exPlant)}>Add Salvia Divinorum to Joe's Plants</button>
+        <button onClick={(e) => deletePlant("joe", -1)}>Delete 'Salvia Divinorum' from Joe's Plants</button>
       </header>
     </div>
   );

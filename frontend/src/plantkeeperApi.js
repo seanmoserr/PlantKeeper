@@ -1,7 +1,7 @@
 const apiEndpoint = "http://localhost:8000/api/users";
 
 // register user
-//creates correct route for app to POST to apiEndpoint/uname but creates 400 bad request
+// creates correct route for app to POST to apiEndpoint/uname but creates 400 bad request
 
 async function registerUser(uname, pass) {
     const options = { 
@@ -70,25 +70,33 @@ async function getPlants(uname) {
 /**
  * Add a task to specified user's tasklist in database.
  * @param {String} uname username of user
- * @param {TaskObj} plantToAdd plant to add
+ * @param {TaskObj} plantsToAdd plant to add
  * @returns updated array of uname's plants or null on error
  */
 async function addPlants(uname, plantsToAdd) {
     const response = await fetch(`${apiEndpoint}/${uname}`);
     var plantsList;
 
+    
+
     if (response.ok) {
         plantsList = await response.json();
+        const existingPlant = plantsList.plants.find(plant => plant.name === plantsToAdd.name);
+        if (existingPlant) {
+            console.log(`Plant with name '${plantsToAdd.name}' already exists. Addition rejected.`);
+            return null;
+        }
         plantsList.plants.push(plantsToAdd);
 
         plantsList = plantsList.plants;
-        console.log(JSON.stringify(uname), plantsList.plants);
+        //log the plant object added to console
+        console.log(JSON.stringify(plantsToAdd));
     } else {
         console.log(response);
         return null;
     }
 
-    console.log(plantsList);
+ 
     
     const update = await fetch(`${apiEndpoint}/${uname}`, {
         method: "PUT",
@@ -97,6 +105,7 @@ async function addPlants(uname, plantsToAdd) {
         },
         body: JSON.stringify(
             {
+                
                 plants:plantsList
             }
         ),
@@ -104,6 +113,7 @@ async function addPlants(uname, plantsToAdd) {
 
      if (update.ok) {
         //check
+        console.log("Updated list okay")
         console.log(plantsList);
         return update;
      }
@@ -120,7 +130,7 @@ async function addPlants(uname, plantsToAdd) {
  * @param {Int} plantID id of plant to delete (-1 to delete all plants)
  * @returns updated array of uname's tasks or null on error
  */
-async function deletePlant(uname, plantID) {
+async function deletePlant(uname, plantName) {
 
     // get user object
     const response = await fetch(`${apiEndpoint}/${uname}`);
@@ -129,12 +139,12 @@ async function deletePlant(uname, plantID) {
     if (response.ok) {
         var plantsList = await response.json();
 
-        if (plantID === -1){ // if id -1 then remove all plants
+        if (plantName === -1){ // if id -1 then remove all plants
             plantsList = [];
         } else {
             // filter tasklist to everything but object with x id
             plantsList = plantsList.plants.filter((obj) => {
-                return obj.id !== plantID;
+                return obj.id !== plantName;
             })
 
         }
