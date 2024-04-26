@@ -11,31 +11,38 @@ const apiEndpoint = "http://localhost:8000/api/users";
  * @returns status response
  */
 async function registerUser(uname, pass) {
-
-    const newUser = {
-        uname: uname,
-        pass: pass,
-        plants: [],
-        tasks: []
+    var userDoesntExist = await checkUser(uname, pass);
+    if(userDoesntExist[1] === "User doesn't exist."){
+        console.log("Now registering " + uname);
+        const newUser = {
+            uname: uname,
+            pass: pass,
+            plants: [],
+            tasks: []
+        }
+    
+        const options = { 
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+      }    
+      
+      fetch(`${apiEndpoint}`, options)
+        .then(response => {     
+           if (response.ok) {
+                console.log("Registered user " + uname + " successfuly!");
+               return response.status;
+             } else {
+                throw new Error('Something went wrong ...');
+             }
+        })
     }
-
-    const options = { 
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser)
-  }    
-  
-  fetch(`${apiEndpoint}`, options)
-    .then(response => {     
-       if (response.ok) {
-           return response.status;
-         } else {
-            throw new Error('Something went wrong ...');
-         }
-    })
+    else {
+        console.log(checkUser(uname, pass)[1]);
+    }
 };
 
 // get check valid user
@@ -49,16 +56,18 @@ async function checkUser(uname, pass){
     const response = await fetch(`${apiEndpoint}/${uname}`);
     if(response.ok) {
         var user = await response.json();
+        if(user == null) {
+            console.log(uname + "doesn't exist")
+            return [false, "User doesn't exist."];
+        }
         if(user.pass === pass){
-            console.log(true);
+            console.log("User/password combo matched a user with the correct password.");
             return [true, "success"];
         } else {
             console.log(false);
-            return [false, "password incorrect"];
+            return [false, "User/password combo matched a user but used the wrong password."];
         }
-    } else {
-        return [false, "user doesn't exist"];
-    }
+    } 
 }
 
 // get plant list
@@ -80,8 +89,6 @@ async function getPlants(uname) {
     }
  }
 
-
-
 // add new plant
 /**
  * Add a task to specified user's tasklist in database.
@@ -92,9 +99,6 @@ async function getPlants(uname) {
 async function addPlants(uname, plantsToAdd) {
     const response = await fetch(`${apiEndpoint}/${uname}`);
     var plantsList;
-
-    
-
     if (response.ok) {
         plantsList = await response.json();
         const existingPlant = plantsList.plants.find(plant => plant.name === plantsToAdd.name);
