@@ -3,7 +3,7 @@ const apiEndpoint = "http://localhost:8000/api/users";
 // register user
 //creates correct route for app to POST to apiEndpoint/uname but creates 400 bad request
 
-async function registerUser(uname) {
+async function registerUser(uname, pass) {
     const options = { 
         method: 'POST',
         headers: {
@@ -23,6 +23,27 @@ async function registerUser(uname) {
          }
     })
 };
+
+// get check valid user
+/**
+ * Checks if uname exists and password matches
+ * @param {String} uname username of user
+ * @param {String} pass password of user
+ * @returns array, array[0] is if pass or fail, array[1] error message
+ */
+async function checkUser(uname, pass){
+    const response = await fetch(`${apiEndpoint}/${uname}`);
+    if(response.ok) {
+        var user = await response.json();
+        if(user.pass === pass){
+            return [true, "success"];
+        } else {
+            return [false, "password incorrect"];
+        }
+    } else {
+        return [false, "user doesn't exist"];
+    }
+}
 
 // get plant list
 /**
@@ -265,5 +286,6 @@ export {
     registerUser,
     getPlants,
     addPlants,
-    deletePlant
+    deletePlant,
+    checkUser
 };
