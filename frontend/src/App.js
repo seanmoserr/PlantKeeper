@@ -5,6 +5,11 @@ import Loginpage from './components/Loginpage';
 import './components/Loginpage.css'
 import { addPlants, deletePlant, getPlants, getTasks, registerUser } from './plantkeeperApi';
 
+const exPlant = {
+  name: "Rosa the Rose",
+  species: "Rose"
+}
+
 
 function App() {
   return (
