@@ -3,21 +3,35 @@ const apiEndpoint = "http://localhost:8000/api/users";
 // register user
 //creates correct route for app to POST to apiEndpoint/uname but creates 400 bad request
 
+// get check valid user
+/**
+ * Registers User
+ * @param {String} uname username of user
+ * @param {String} pass password of user
+ * @returns status response
+ */
 async function registerUser(uname, pass) {
+
+    const newUser = {
+        uname: uname,
+        pass: pass,
+        plants: [],
+        tasks: []
+    }
+
     const options = { 
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         },
-    body: JSON.stringify(uname)
+        body: JSON.stringify(newUser)
   }    
   
-  fetch(`${apiEndpoint}/${uname}`, options)
-    .then(response => {
-       console.log(uname)        
+  fetch(`${apiEndpoint}`, options)
+    .then(response => {     
        if (response.ok) {
-           return response.json();
+           return response.status;
          } else {
             throw new Error('Something went wrong ...');
          }
