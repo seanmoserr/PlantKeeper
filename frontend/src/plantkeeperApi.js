@@ -1,19 +1,17 @@
 const apiEndpoint = "http://localhost:8000/api/users";
 
 // register user
-// creates correct route for app to POST to apiEndpoint/uname but creates 400 bad request
 
 // get check valid user
 /**
  * Registers User
  * @param {String} uname username of user
  * @param {String} pass password of user
- * @returns status response
+ * @returns bool if user is logged in
  */
 async function registerUser(uname, pass) {
     var userDoesntExist = await checkUser(uname, pass);
     if(userDoesntExist[1] === "User doesn't exist."){
-        console.log("Now registering " + uname);
         const newUser = {
             uname: uname,
             pass: pass,
@@ -33,15 +31,14 @@ async function registerUser(uname, pass) {
       fetch(`${apiEndpoint}`, options)
         .then(response => {     
            if (response.ok) {
-                console.log("Registered user " + uname + " successfuly!");
-               return response.status;
+               return true;
              } else {
-                throw new Error('Something went wrong ...');
+                return false;
              }
         })
     }
     else {
-        console.log(checkUser(uname, pass)[1]);
+        return false;
     }
 };
 
@@ -57,14 +54,11 @@ async function checkUser(uname, pass){
     if(response.ok) {
         var user = await response.json();
         if(user == null) {
-            console.log(uname + "doesn't exist")
             return [false, "User doesn't exist."];
         }
         if(user.pass === pass){
-            console.log("User/password combo matched a user with the correct password.");
             return [true, "success"];
         } else {
-            console.log(false);
             return [false, "User/password combo matched a user but used the wrong password."];
         }
     } 
@@ -80,11 +74,9 @@ async function getPlants(uname) {
     const response = await fetch(`${apiEndpoint}/${uname}`);
     if (response.ok) {
         var test = await response.json();
-        console.log(test.plants);
         return test.plants;
     }
     else {
-       console.log(response);
        return null;
     }
  }
@@ -97,27 +89,26 @@ async function getPlants(uname) {
  * @returns updated array of uname's plants or null on error
  */
 async function addPlants(uname, plantsToAdd) {
+    // check plant name
+
     const response = await fetch(`${apiEndpoint}/${uname}`);
     var plantsList;
     if (response.ok) {
         plantsList = await response.json();
         const existingPlant = plantsList.plants.find(plant => plant.name === plantsToAdd.name);
         if (existingPlant) {
-            console.log(`Plant with name '${plantsToAdd.name}' already exists. Addition rejected.`);
+            // reject an existing plant name
             return null;
         }
         plantsList.plants.push(plantsToAdd);
 
         plantsList = plantsList.plants;
         //log the plant object added to console
-        console.log(JSON.stringify(plantsToAdd));
     } else {
-        console.log(response);
         return null;
     }
 
- 
-    
+    // update plant list
     const update = await fetch(`${apiEndpoint}/${uname}`, {
         method: "PUT",
         headers: {
@@ -133,12 +124,9 @@ async function addPlants(uname, plantsToAdd) {
 
      if (update.ok) {
         //check
-        console.log("Updated list okay")
-        console.log(plantsList);
-        return update;
+        return plantsList;
      }
      else {
-        console.log(plantsList);
         return null;
     }
 }
@@ -147,7 +135,7 @@ async function addPlants(uname, plantsToAdd) {
 /**
  * Delete a task from a specified user's tasklist in database.
  * @param {String} uname username of user
- * @param {Int} plantID id of plant to delete (-1 to delete all plants)
+ * @param {String} plantID name of plant to delete (-1 to delete all plants)
  * @returns updated array of uname's tasks or null on error
  */
 async function deletePlant(uname, plantName) {
@@ -168,9 +156,7 @@ async function deletePlant(uname, plantName) {
             })
 
         }
-        console.log(plantsList);
     } else {
-        console.log(response);
         return null;
     }
 
@@ -191,7 +177,6 @@ async function deletePlant(uname, plantName) {
         return plantsList;
      }
      else {
-        console.log(update);
         return null;
     }
 }
@@ -205,11 +190,9 @@ async function getTasks(uname) {
     const response = await fetch(`${apiEndpoint}/${uname}`);
     if (response.ok) {
         var test = await response.json();
-        console.log(test.tasks);
         return test.tasks;
     }
     else {
-       console.log(response);
        return null;
     }
  }
@@ -239,11 +222,9 @@ async function addTasks(uname, taskToAdd) {
 
         taskList = taskList.tasks;
     } else {
-        console.log(response);
         return null;
     }
 
-    console.log(taskList);
     
     const update = await fetch(`${apiEndpoint}/${uname}`, {
         method: "PUT",
@@ -261,7 +242,6 @@ async function addTasks(uname, taskToAdd) {
         return taskList;
      }
      else {
-        console.log(update);
         return null;
     }
 }
@@ -290,9 +270,7 @@ async function deleteTask(uname, taskID) {
             })
 
         }
-        console.log(taskList);
     } else {
-        console.log(response);
         return null;
     }
 
@@ -313,7 +291,6 @@ async function deleteTask(uname, taskID) {
         return taskList;
      }
      else {
-        console.log(update);
         return null;
     }
 }
