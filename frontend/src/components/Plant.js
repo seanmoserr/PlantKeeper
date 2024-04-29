@@ -7,4 +7,14 @@ const Plant = (uname, pname) => {
             </div>
     )
 }
+
+class plant {
+    species = "";
+    name = "";
+
+    constructor(new_spec, new_name){
+        this.species = new_spec;
+        this.name = new_name;
+    }
+}
 export default Plant

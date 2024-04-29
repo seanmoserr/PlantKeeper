@@ -1,7 +1,25 @@
 import './home.css';
 import { addPlants, deletePlant, getPlants, getTasks, registerUser } from './plantkeeperApi';
 import Plant from "./Plant";
+import plant from "./Plant";
 import {useEffect, useState} from "react";
+
+class task {
+    id = -1;
+    action = "";
+    plant_name = "";
+    do_by = new Date();
+    recurring = false;
+
+    constructor(new_id, new_action, new_name, due_date, recurring){
+        this.id = new_id;
+        this.action = new_action;
+        this.plant_name = new_name;
+        this.recurring = recurring;
+        this.do_by = due_date;
+    }
+}
+
 
 function loadTasks(uname){
     const [taskList, setTaskList] = useState([])
@@ -25,7 +43,7 @@ function loadTasks(uname){
                 <th>To-Do List</th>
             </tr>
             </thead>
-            <tbody>{rows}</tbody>
+            <tbody>{renderTaskList()}</tbody>
         </table>
     );
 }
@@ -35,12 +53,16 @@ function task(uname, taskID){
 }
 
 function plantsPreview(uname) {
-    const plantList = getPlants(uname);
+    var plantList = new Array[plant];
+
+    getPlants(uname).then((res) => {
+        plantList[res]
+    })
 
     //get first three plantIDs
-    let plant1 = plantList.at(0).getPlantID();
-    let plant2 = plantList.at(1).getPlantID();
-    let plant3 = plantList.at(2).getPlantID();
+    let plant1 = plantList.at(0).id();
+    let plant2 = plantList.at(1).id();
+    let plant3 = plantList.at(2).id();
 
 
     return (
