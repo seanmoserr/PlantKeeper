@@ -1,17 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState } from 'react';
 import Loginpage from './components/Loginpage';
-import './components/Loginpage.css'
-import { addPlants, checkUser, deletePlant, getPlants, getTasks, registerUser } from './plantkeeperApi';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import TestComp from './components/TestComp';
-
-const exPlant = {
-  name: "Rosa the Rose",
-  species: "Rose"
-}
-
 
 function App() {
   return (
