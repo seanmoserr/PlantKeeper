@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 function Loginpage(){
 
+
     const [action,setAction] = useState("");
     const [inputs, setInputs] = useState({});
     const redirect = useNavigate();
     const [loggedIn, setLoggedIn] =useState(false);
     // const [registered, setRegistered] = useState(false);
 
-   async function handleSubmit(event) {
+   function handleSubmit(event) {
       event.preventDefault();
 
       const { username, password } = inputs;
@@ -45,14 +46,14 @@ function Loginpage(){
             }
             else{
                 alert("Login failed: " + message);
-              }
-        
             }
-        } 
-        catch(error){
+        })
+        .catch(error => {
             console.error("Error:", error);
-            alert("An error occurred while logging in.");
-          } 
+            alert("An error occurred while loggin in.");
+        });
+    }
+       
    }
 
    function handleChange(event) {
