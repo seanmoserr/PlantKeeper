@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 function Loginpage(){
 
-
     const [action,setAction] = useState("");
     const [inputs, setInputs] = useState({});
     const navigate = useNavigate();
