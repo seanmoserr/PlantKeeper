@@ -2,23 +2,9 @@ import './home.css';
 import { addPlants, deletePlant, getPlants, getTasks, registerUser } from './plantkeeperApi';
 import Plant from "./Plant";
 import plant from "./Plant";
+import task from "./task";
+import Task from "./task";
 import {useEffect, useState} from "react";
-
-class task {
-    id = -1;
-    action = "";
-    plant_name = "";
-    do_by = new Date();
-    recurring = false;
-
-    constructor(new_id, new_action, new_name, due_date, recurring){
-        this.id = new_id;
-        this.action = new_action;
-        this.plant_name = new_name;
-        this.recurring = recurring;
-        this.do_by = due_date;
-    }
-}
 
 
 function loadTasks(uname){
@@ -32,7 +18,7 @@ function loadTasks(uname){
 
     const renderTaskList = () => {
         return taskList.forEach((task) => {
-            return <span>{task.getTask()}</span>
+            return <span>{Task(task)}</span>
         })
     }
 
@@ -46,10 +32,6 @@ function loadTasks(uname){
             <tbody>{renderTaskList()}</tbody>
         </table>
     );
-}
-
-function task(uname, taskID){
-
 }
 
 function plantsPreview(uname) {
