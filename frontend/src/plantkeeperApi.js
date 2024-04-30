@@ -30,7 +30,7 @@ async function registerUser(uname, pass) {
       
       fetch(`${apiEndpoint}`, options)
         .then(response => {     
-           if (response.ok) {
+           if (response.status === 204) {
                return true;
              } else {
                 return false;
