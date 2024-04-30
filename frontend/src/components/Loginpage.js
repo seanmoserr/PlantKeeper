@@ -1,36 +1,58 @@
 import React, { useState } from 'react';
- import { registerUser } from './plantkeeperApi';
+import { registerUser, checkUser } from '../plantkeeperApi';
+import { useNavigate } from 'react-router-dom';
 
-  // const [count, setCount] = useState(0)
-  // function handleClick(){
-  //   setCount(
-  //     function (prevCount) {
-  //       return prevCount + 1
-  //     }
-  //     )
-  //   console.log("I Was Clicked Once :)")
-  // }
-  // return (
-  //   <>
-  //     <h1>{count}</h1>
-  //     <button onClick={handleClick} className="click">Click me</button>
-  //   </>
-  // );
-  // function handleLogin(){
-  //   alert("succesfully logged in")
-  // }
+
 function Loginpage(){
 
-// const [username, setUsername] = useState('');
-// const [password, setPassword] = useState('');
 
-// const [action,setAction] = useState("Login");
-
-const [inputs, setInputs] = useState({});
+    const [action,setAction] = useState("");
+    const [inputs, setInputs] = useState({});
+    const history = useNavigate();
+    const [loggedIn, setLoggedIn] =useState(false);
+    // const [registered, setRegistered] = useState(false);
 
    function handleSubmit(event) {
       event.preventDefault();
-      alert(`Username: ${inputs.username}\nPassowrd: ${inputs.password}`);
+
+      const { username, password } = inputs;
+
+    if(action==="Sign Up"){
+     registerUser(username, password)
+      .then(response => {
+        console.log(response)
+        if (response) {
+          alert("User registered successfully!");
+           setLoggedIn(true);
+           history.push(`/home/${username}`)
+        //   setRegistered(true);
+        } else {
+          alert("Failed to register user.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while registering the user.");
+      });
+    }
+    else if(action==="Login"){
+        checkUser(username, password)
+        .then(result=>{
+            const[success, message] = result;
+            if(success){
+                alert("Login successful!");
+                 setLoggedIn(true);
+                 history.push(`/home/${username}`)
+            }
+            else{
+                alert("Login failed: " + message);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while loggin in.");
+        });
+    }
        
    }
 
@@ -58,6 +80,10 @@ const [inputs, setInputs] = useState({});
 //     setUsername('');
 //     setPassword('');
 // }
+// if(loggedIn){
+//     return <home />
+// }
+// else{
 return(
   <>
   
@@ -82,8 +108,8 @@ return(
         </div> 
 
         <div className='submit-container'>
-        <button type="submit" className="submit" >Sign Up</button>
-        <button type="submit" className="submit" >Login</button>
+        <button type="submit" className="submit" onClick={()=>setAction("Sign Up")} >Sign Up</button>
+        <button type="submit" className="submit" onClick={()=>setAction("Login")}>Login</button>
         
         </div>
     </form>
