@@ -1,4 +1,5 @@
 import Loginpage from './components/Loginpage';
+import './components/Loginpage.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import TestComp from './components/TestComp';
 
