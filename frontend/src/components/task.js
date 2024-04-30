@@ -1,22 +1,35 @@
 import './task.css';
-const Task = (task) => {
+import React, { useState } from 'react';
+import './styles.css'; // Import your CSS file for styling
+
+function Tasks(tasks) {
+    // State to track the selected object
+    const [selectedTask, setSelectedTask] = useState(null);
+
+    // Function to handle click on an item
+    const handleItemClick = (index) => {
+        setSelectedItem(index);
+    };
+
     return (
         <div className="task-box">
-            <div className="header">
-                <h2>Task</h2>
-                <h2>Plant</h2>
-                <h2>Due Date</h2>
-            </div>
-            <div className="task-list">
-                <div className="task">
-                    <p>task.action</p>
-                    <p>task.plant_name</p>
-                    <p>task.dateToString()</p>
-                </div>
-            </div>
+            <h2>List of Objects</h2>
+            <ul className="task">
+                {tasks.map((task, plant_name) => (
+                    <li
+                        key={index}
+                        className={selectedTask === index ? 'selected' : ''}
+                        onClick={() => handleItemClick(index)}
+                    >
+                        {tasks}
+                    </li>
+                ))}
+            </ul>
         </div>
-    )
+    );
 }
+
+export default List;
 
 class task {
     id = -1;

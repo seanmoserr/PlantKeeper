@@ -3,7 +3,7 @@ import { addPlants, deletePlant, getPlants, getTasks, registerUser } from './pla
 import Plant from "./Plant";
 import plant from "./Plant";
 import task from "./task";
-import Task from "./task";
+import Tasks from "./task";
 import {useEffect, useState} from "react";
 
 
@@ -17,10 +17,19 @@ function loadTasks(uname){
     }, []);
 
     const renderTaskList = () => {
+        return (
+            <span>{Tasks(taskList)}</span>
+        );
+
+
+    }
+    /*
+    const renderTaskList = () => {
         return taskList.forEach((task) => {
             return <span>{Task(task)}</span>
         })
     }
+     */
 
     return (
         <table>
@@ -73,18 +82,6 @@ function removeTask(uname, taskID) {
     );
 }
 
-/**
- function Plant(uname, pname) {
- return (
-        <div className="indPlant">
-            <input type="text" placeholder="Enter text..." style="display: block; margin-bottom: 10px;"/>
-            <img src="https://via.placeholder.com/50x50" alt="Small Image" width="50" height="50"/>
-        </div>
-    );
-
-}
-    **/
-
 
 function home(uname) {
 
@@ -101,7 +98,11 @@ function home(uname) {
 }
 
 function allPlants(uname) {
-    let plants = [];
+    var plantList = new Array[plant];
+
+    getPlants(uname).then((res) => {
+        plantList[res]
+    })
     //loop through all of the plants and call plant each time
     return(
         <>
