@@ -8,7 +8,7 @@ function Loginpage(){
 
     const [action,setAction] = useState("");
     const [inputs, setInputs] = useState({});
-    const history = useNavigate();
+    const redirect = useNavigate();
     const [loggedIn, setLoggedIn] =useState(false);
     // const [registered, setRegistered] = useState(false);
 
@@ -21,10 +21,10 @@ function Loginpage(){
      registerUser(username, password)
       .then(response => {
         console.log(response)
-        if (response) {
+        if (response !== false) {
           alert("User registered successfully!");
            setLoggedIn(true);
-           history.push(`/home/${username}`)
+           redirect(`/home/${username}`)
         //   setRegistered(true);
         } else {
           alert("Failed to register user.");
@@ -42,7 +42,7 @@ function Loginpage(){
             if(success){
                 alert("Login successful!");
                  setLoggedIn(true);
-                 history.push(`/home/${username}`)
+                 redirect(`/home/${username}`)
             }
             else{
                 alert("Login failed: " + message);

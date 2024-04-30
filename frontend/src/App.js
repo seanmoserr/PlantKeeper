@@ -3,8 +3,9 @@ import './App.css';
 import { useState } from 'react';
 import Loginpage from './components/Loginpage';
 import './components/Loginpage.css'
-import { addPlants, deletePlant, getPlants, getTasks, registerUser } from './plantkeeperApi';
-import { BrowserRouter } from 'react-router-dom';
+import { addPlants, checkUser, deletePlant, getPlants, getTasks, registerUser } from './plantkeeperApi';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import TestComp from './components/TestComp';
 
 const exPlant = {
   name: "Rosa the Rose",
@@ -15,11 +16,11 @@ const exPlant = {
 function App() {
   return (
     <BrowserRouter>
-      <div className='Loginpage'>
-        <Loginpage />
-        <button onClick={(e) => registerUser("eno", "123")}>Register User, Eno</button>
-        <button onClick={(e) => registerUser("mr. jones", "321")}>Register User, mr. jones</button>
-      </div>
+      <Routes>
+            <Route path="/" element={<Loginpage />} />
+            <Route path="/home/:uname" element={<TestComp />} />
+            <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
     </BrowserRouter>
   );
 }
