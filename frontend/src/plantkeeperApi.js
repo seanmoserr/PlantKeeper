@@ -155,7 +155,7 @@ async function deletePlant(uname, plantName) {
         } else {
             // filter tasklist to everything but object with x id
             plantsList = plantsList.plants.filter((obj) => {
-                return obj.id !== plantName;
+                return obj.name !== plantName;
             })
 
         }
