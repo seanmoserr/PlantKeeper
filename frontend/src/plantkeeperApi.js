@@ -1,4 +1,5 @@
 const apiEndpoint = "http://localhost:8000/api/users";
+const bcrypt = require("bcryptjs");
 
 // register user
 
@@ -12,9 +13,11 @@ const apiEndpoint = "http://localhost:8000/api/users";
 async function registerUser(uname, pass) {
     var userDoesntExist = await checkUser(uname, pass);
     if(userDoesntExist[1] === "User doesn't exist."){
+        let hashedPass = bcrypt.hashSync(pass, 10);
+
         const newUser = {
             uname: uname,
-            pass: pass,
+            pass: hashedPass,
             plants: [],
             tasks: []
         }
@@ -56,10 +59,10 @@ async function checkUser(uname, pass){
         if(user == null) {
             return [false, "User doesn't exist."];
         }
-        if(user.pass === pass){
+        if(bcrypt.compareSync(pass, user.pass)){
             return [true, "success"];
         } else {
-            return [false, "User/password combo matched a user but used the wrong password."];
+            return console.log([false, "User/password combo matched a user but used the wrong password."]);
         }
     } 
 }

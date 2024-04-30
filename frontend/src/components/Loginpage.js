@@ -7,7 +7,7 @@ function Loginpage(){
 
     const [action,setAction] = useState("");
     const [inputs, setInputs] = useState({});
-    const navigate = useNavigate();
+    const redirect = useNavigate();
     const [loggedIn, setLoggedIn] =useState(false);
     // const [registered, setRegistered] = useState(false);
 
@@ -15,31 +15,35 @@ function Loginpage(){
       event.preventDefault();
 
       const { username, password } = inputs;
-      try{
-          if(action==="Sign Up"){
-            const response= await registerUser(username, password)
-      
-            console.log(response)
-            if (response) {
-                alert("User registered successfully!");
-                setLoggedIn(true);
-                navigate(`/home/${username}`)
-              } 
-              else {
-                alert("Failed to register user.");
-              }
-      
-          }
-          else if(action==="Login"){
-              const result= await checkUser(username, password)
-        
-              const[success, message] = result;
-              if(success){
-                  alert("Login successful!");
-                  setLoggedIn(true);
-                  navigate(`/home/${username}`)
-                }
-              else{
+
+    if(action==="Sign Up"){
+     registerUser(username, password)
+      .then(response => {
+        console.log(response)
+        if (response !== false) {
+          alert("User registered successfully!");
+           setLoggedIn(true);
+           redirect(`/home/${username}`)
+        //   setRegistered(true);
+        } else {
+          alert("Failed to register user.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while registering the user.");
+      });
+    }
+    else if(action==="Login"){
+        checkUser(username, password)
+        .then(result=>{
+            const[success, message] = result;
+            if(success){
+                alert("Login successful!");
+                 setLoggedIn(true);
+                 redirect(`/home/${username}`)
+            }
+            else{
                 alert("Login failed: " + message);
               }
         
