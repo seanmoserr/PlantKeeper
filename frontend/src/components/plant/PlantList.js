@@ -10,16 +10,13 @@ function PlantList(props) {
 
    async function deleteFromList(plantName) {
       // Delete message from database
-      console.log(plantName);
       var newList = await deletePlant(uname, plantName);
-
       setPlants(newList);
    }
 
    useEffect(() => {
       async function getAllPlants() {
          const newList = await getPlants(uname);
-         console.log(newList)
          setPlants(newList);
          setIsLoading(false);
       }
