@@ -33,7 +33,7 @@ function TaskList(props) {
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                 ) : tasks.map(task => (
-                    <Task id={task.id}
+                    <Task id={task.id} action = {task.action} plant_name = {task.plant_name} do_by = {task.do_by}
                            delete={deleteFromList} />
                 ))
             }
