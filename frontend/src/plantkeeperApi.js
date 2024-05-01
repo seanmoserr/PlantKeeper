@@ -203,7 +203,7 @@ async function getTasks(uname) {
 /**
  * Add a task to specified user's tasklist in database.
  * @param {String} uname username of user
- * @param {TaskObj} taskToAdd task to add
+ * @param {{recurring: string, action: string, do_by: string, plant_name: string}} taskToAdd task to add
  * @returns updated array of uname's tasks or null on error
  */
 async function addTasks(uname, taskToAdd) {
