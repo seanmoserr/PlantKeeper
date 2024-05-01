@@ -13,4 +13,19 @@ const Plant = (props) => {
     )
 }
 
+class plant {
+    species = "";
+    name = "";
+
+    plant() {
+        this.species = "default";
+        this.name = "unnamed plant";
+    }
+
+    plant(new_name, new_species){
+        this.species = new_species;
+        this.name = new_name;
+    }
+}
+
 export default Plant
