@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import Plant from "./Plant";
+import "./PlantList.css"
 import { getPlants, deletePlant } from "../../plantkeeperApi";
 
 function PlantList(props) {
@@ -25,18 +26,21 @@ function PlantList(props) {
    }, [uname]);
 
    return (
-      <>
+      <div className = "plant-container">
+         <div className = "plant-list">Plant List</div>
          {isLoading
             ? (
                <Spinner animation="border" role="status">
                   <span className="visually-hidden">Loading...</span>
                </Spinner>
-            ) : plants.map(plant => (
+            ) : (plants.map(plant => (
+                <div key = {plant.name} className = "plant">
                <Plant name={plant.name} species={plant.species}
                   delete={deleteFromList} />
+                </div>
             ))
-         }
-      </>
+             )}
+      </div>
    );
 }
 

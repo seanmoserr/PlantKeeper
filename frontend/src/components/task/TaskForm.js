@@ -29,37 +29,37 @@ function TaskForm(props) {
 
     return (
         <div  className = "form-container">
-        <form onSubmit={handleSubmit}>
-            <label>Action:
-                <input
-                    type="text"
-                    value={action}
-                    onChange={(e) => setAction(e.target.value)}
-                />
-            </label>
-            <label>due by:
-                <input
-                    type="text"
-                    value={do_by}
-                    onChange={(e) => setDo_by(e.target.value)}
-                />
-            </label>
-            <label>Plant Name:
-                <input
-                    type="text"
-                    value={plant_name}
-                    onChange={(e) => setPlant_name(e.target.value)}
-                />
-            </label>
-            <label>Reccuring:
-                <input
-                    type="checkbox"
-                    value={recurring}
-                    onChange={(e) => setRecurring(e.target.value)}
-                />
-            </label>
-            <input type="submit"/>
-        </form>
+            <form onSubmit={handleSubmit}>
+                <label>Action:
+                    <input
+                        type="text"
+                        value={action}
+                        onChange={(e) => setAction(e.target.value)}
+                    />
+                </label>
+                <label>Plant Name:
+                    <input
+                        type="text"
+                        value={plant_name}
+                        onChange={(e) => setPlant_name(e.target.value)}
+                    />
+                </label>
+                <label>due by:
+                    <input
+                        type="date"
+                        value={do_by}
+                        onChange={(e) => setDo_by(e.target.value)}
+                    />
+                </label>
+                <label>Reccuring:
+                    <input
+                        type="checkbox"
+                        value={recurring}
+                        onChange={(e) => setRecurring(e.target.value)}
+                    />
+                </label>
+                <input type="submit"/>
+            </form>
         </div>
     )
 

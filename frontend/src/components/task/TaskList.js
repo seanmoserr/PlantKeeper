@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import Task from "./task.js";
+import "./TaskList.css";
 import { getTasks, deleteTask } from "../../plantkeeperApi";
 
 
@@ -26,18 +27,26 @@ function TaskList(props) {
     }, [uname]);
 
     return (
-        <>
-            {isLoading
-                ? (
-                    <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                ) : tasks.map(task => (
-                    <Task id={task.id} action = {task.action} plant_name = {task.plant_name} do_by = {task.do_by}
-                           delete={deleteFromList} />
+        <div className="task-container">
+            <div className = "task-list">To-Do List</div>
+            {isLoading ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
+                tasks.map(task => (
+                    <div key={task.id} className="task">
+                        <Task
+                            id={task.id}
+                            action={task.action}
+                            plant_name={task.plant_name}
+                            do_by={task.do_by}
+                            delete={deleteFromList}
+                        />
+                    </div>
                 ))
-            }
-        </>
+            )}
+        </div>
     );
 }
 

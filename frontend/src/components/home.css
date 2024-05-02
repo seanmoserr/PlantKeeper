@@ -1,19 +1,36 @@
-.task-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.task-button:hover {
-    background-color: #0056b3;
-}
-
 .home {
+    text-align: center;
+}
+
+.welcome {
+    font-size: 24px;
+    color: #198754; /* Dark Green */
+    margin-bottom: 20px;
+}
+
+.component-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+}
+
+.list-container {
+    width: 45%;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+    margin: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #e8f6e8; /* Light Green */
+    justify-content: center;
+}
+
+.list-container {
+    background-color: #c9e6c9; /* Medium Green */
 }

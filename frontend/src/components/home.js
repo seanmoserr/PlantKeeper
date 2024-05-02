@@ -10,14 +10,21 @@ function Home() {
 
     return(
         <div className="home">
-            <PlantList
-                uname_in={uname} />
-            <PlantForm
-                uname_in={uname} />
-            <TaskList
-                uname_in={uname} />
-            <TaskForm
-                uname_in={uname} />
+            <div className="welcome">Welcome, {uname}!</div>
+            <div className="component-container">
+                <div className="form-container">
+                    <PlantForm uname_in={uname}/>
+                </div>
+                <div className="list-container">
+                    <PlantList uname_in={uname}/>
+                </div>
+                <div className="form-container">
+                    <TaskForm uname_in={uname}/>
+                </div>
+                <div className="list-container">
+                    <TaskList uname_in={uname}/>
+                </div>
+            </div>
         </div>
     );
 }
