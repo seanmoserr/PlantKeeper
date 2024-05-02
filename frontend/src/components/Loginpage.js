@@ -5,13 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 function Loginpage(){
 
-
     const [action,setAction] = useState("");
     const [inputs, setInputs] = useState({});
     const redirect = useNavigate();
-    const [loggedIn, setLoggedIn] =useState(false);
-    // const [registered, setRegistered] = useState(false);
-
+   
+    
    function handleSubmit(event) {
       event.preventDefault();
 
@@ -23,9 +21,8 @@ function Loginpage(){
         console.log(response)
         if (response !== false) {
           alert("User registered successfully!");
-           setLoggedIn(true);
            redirect(`/home/${username}`)
-        //   setRegistered(true);
+        
         } else {
           alert("Failed to register user.");
         }
@@ -41,7 +38,6 @@ function Loginpage(){
             const[success, message] = result;
             if(success){
                 alert("Login successful!");
-                 setLoggedIn(true);
                  redirect(`/home/${username}`)
             }
             else{
@@ -63,27 +59,6 @@ function Loginpage(){
    }
 
 
-// function handleSubmit(event){
-//     event.preventDefault();
-
-//     const formData = new FormData(event.target);
-//     const data = Object.fromEntries(formData.entries());
-
-//     if(action === "Login"){
-//         console.log({username});
-//     }
-//     else if (action === "Sign Up") {
-//         console.log("Sign Up form submitted with data: ", data);
-//     }
-    
-
-//     setUsername('');
-//     setPassword('');
-// }
-// if(loggedIn){
-//     return <home />
-// }
-// else{
 return(
   <>
   
@@ -93,7 +68,7 @@ return(
     
     <div className='header'>
         <div className='text'>Login/Register</div>
-        {/* <div className='underline'></div> */}
+        
     </div>
 
     <form className='inputs' onSubmit={handleSubmit}>
